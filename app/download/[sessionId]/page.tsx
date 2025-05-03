@@ -3,6 +3,7 @@ import Link from "next/link"
 import { ArrowDown, BookOpen, CheckCircle, Shield } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
+import SiteHeader from "@/components/site-header"
 
 // In a real implementation, this would verify the session ID against your database
 // and only allow access if the purchase is valid
@@ -49,13 +50,7 @@ export default async function DownloadPage({ params }: { params: { sessionId: st
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-16 items-center justify-between">
-          <div className="flex items-center gap-2 font-bold text-xl">
-            <Link href="/">Aurimas Povilaitis</Link>
-          </div>
-        </div>
-      </header>
+      <SiteHeader />
 
       <div className="container py-12 max-w-4xl">
         <div className="mb-8 text-center space-y-2">

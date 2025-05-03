@@ -5,40 +5,12 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import NewsletterSignup from "@/components/newsletter-signup"
 import TestimonialCard from "@/components/testimonial-card"
+import SiteHeader from "@/components/site-header"
 
 export default function Home() {
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-16 items-center justify-between">
-          <div className="flex items-center gap-2 font-bold text-xl">
-            <span>Aurimas Povilaitis</span>
-          </div>
-          <nav className="hidden md:flex gap-6">
-            <Link href="#about" className="text-sm font-medium hover:underline underline-offset-4">
-              About
-            </Link>
-            <Link href="#expertise" className="text-sm font-medium hover:underline underline-offset-4">
-              Expertise
-            </Link>
-            <Link href="#book" className="text-sm font-medium hover:underline underline-offset-4">
-              Book
-            </Link>
-            <Link href="#testimonials" className="text-sm font-medium hover:underline underline-offset-4">
-              Testimonials
-            </Link>
-            <Link href="/blog" className="text-sm font-medium hover:underline underline-offset-4">
-              Blog
-            </Link>
-            <Link href="/pricing" className="text-sm font-medium hover:underline underline-offset-4">
-              Pricing
-            </Link>
-          </nav>
-          <Button asChild>
-            <Link href="/pricing">Get the Book</Link>
-          </Button>
-        </div>
-      </header>
+      <SiteHeader />
 
       <main className="flex-1">
         {/* Hero Section */}
@@ -74,11 +46,11 @@ export default function Home() {
             <div className="flex-1 flex justify-center">
               <div className="relative w-[280px] h-[380px] md:w-[320px] md:h-[420px] rounded-lg overflow-hidden">
                 <Image
-                  src="/placeholder.svg?height=420&width=320"
+                  src="/images/aurimas-profile.png"
                   alt="Aurimas Povilaitis"
                   width={320}
                   height={420}
-                  className="object-cover"
+                  className="object-cover object-center"
                   priority
                 />
               </div>
@@ -93,11 +65,11 @@ export default function Home() {
               <div className="w-full md:w-1/3 flex justify-center">
                 <div className="relative w-64 h-64 rounded-full overflow-hidden">
                   <Image
-                    src="/placeholder.svg?height=256&width=256"
+                    src="/images/aurimas-profile.png"
                     alt="Aurimas Povilaitis"
                     width={256}
                     height={256}
-                    className="object-cover"
+                    className="object-cover object-center"
                   />
                 </div>
               </div>

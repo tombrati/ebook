@@ -3,39 +3,28 @@ import Image from "next/image"
 import { ArrowDown, ArrowRight, FileText } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import SiteHeader from "@/components/site-header"
 
 export default function SamplePage() {
   return (
     <div className="min-h-screen bg-background">
-      <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-16 items-center justify-between">
-          <div className="flex items-center gap-2 font-bold text-xl">
-            <Link href="/">Aurimas Povilaitis</Link>
-          </div>
-          <nav className="hidden md:flex gap-6">
-            <Link href="/#about" className="text-sm font-medium hover:underline underline-offset-4">
-              About
-            </Link>
-            <Link href="/#expertise" className="text-sm font-medium hover:underline underline-offset-4">
-              Expertise
-            </Link>
-            <Link href="/#book" className="text-sm font-medium hover:underline underline-offset-4">
-              Book
-            </Link>
-            <Link href="/blog" className="text-sm font-medium hover:underline underline-offset-4">
-              Blog
-            </Link>
-            <Link href="/pricing" className="text-sm font-medium hover:underline underline-offset-4">
-              Pricing
-            </Link>
-          </nav>
-        </div>
-      </header>
+      <SiteHeader />
 
       <div className="container py-12 max-w-4xl">
         <div className="flex flex-col md:flex-row gap-8 items-center mb-12">
           <div className="w-full md:w-1/3 flex justify-center">
             <div className="relative w-[200px] h-[280px] shadow-lg rounded-md overflow-hidden">
+              <div className="absolute top-0 left-0 w-full h-1/3 bg-gradient-to-b from-primary/80 to-transparent z-10 flex items-center justify-center">
+                <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-white">
+                  <Image
+                    src="/images/aurimas-profile.png"
+                    alt="Aurimas Povilaitis"
+                    width={64}
+                    height={64}
+                    className="object-cover"
+                  />
+                </div>
+              </div>
               <Image
                 src="/placeholder.svg?height=280&width=200"
                 alt="AI Beginner's Guide Ebook Cover"

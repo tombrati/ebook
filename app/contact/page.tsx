@@ -10,6 +10,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
 import { Loader2, Mail, MessageSquare, Calendar } from "lucide-react"
+import SiteHeader from "@/components/site-header"
 
 export default function ContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -32,30 +33,7 @@ export default function ContactPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-16 items-center justify-between">
-          <div className="flex items-center gap-2 font-bold text-xl">
-            <Link href="/">Aurimas Povilaitis</Link>
-          </div>
-          <nav className="hidden md:flex gap-6">
-            <Link href="/#about" className="text-sm font-medium hover:underline underline-offset-4">
-              About
-            </Link>
-            <Link href="/#expertise" className="text-sm font-medium hover:underline underline-offset-4">
-              Expertise
-            </Link>
-            <Link href="/#book" className="text-sm font-medium hover:underline underline-offset-4">
-              Book
-            </Link>
-            <Link href="/blog" className="text-sm font-medium hover:underline underline-offset-4">
-              Blog
-            </Link>
-            <Link href="/pricing" className="text-sm font-medium hover:underline underline-offset-4">
-              Pricing
-            </Link>
-          </nav>
-        </div>
-      </header>
+      <SiteHeader />
 
       <div className="container py-12">
         <div className="max-w-2xl mx-auto">

@@ -22,6 +22,9 @@ export default function SiteHeader() {
           <Link href="/#about" className="text-sm font-medium hover:underline underline-offset-4">
             About
           </Link>
+          <Link href="/landing-page" className="text-sm font-medium hover:underline underline-offset-4">
+            Landing Page
+          </Link>
           <Link href="/#expertise" className="text-sm font-medium hover:underline underline-offset-4">
             Expertise
           </Link>

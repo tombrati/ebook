@@ -1,6 +1,6 @@
 import type React from "react"
 import Link from "next/link"
-import { BarChart, Settings, Users, FileText } from "lucide-react"
+import { BarChart, Settings, Users, FileText, Mail, Home, BookOpen, DollarSign } from "lucide-react"
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -17,8 +17,44 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 href="/admin/dashboard"
                 className="flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground"
               >
-                <BarChart className="h-4 w-4" />
+                <Home className="h-4 w-4" />
                 Dashboard
+              </Link>
+            </li>
+            <li className="space-y-1">
+              <Link
+                href="/admin/analytics"
+                className="flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground"
+              >
+                <BarChart className="h-4 w-4" />
+                Analytics
+              </Link>
+              <ul className="pl-7 space-y-1">
+                <li>
+                  <Link
+                    href="/admin/analytics/real-time"
+                    className="flex items-center gap-3 rounded-md px-3 py-2 text-xs font-medium hover:bg-accent hover:text-accent-foreground"
+                  >
+                    Real-Time
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/admin/analytics"
+                    className="flex items-center gap-3 rounded-md px-3 py-2 text-xs font-medium hover:bg-accent hover:text-accent-foreground"
+                  >
+                    Overview
+                  </Link>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <Link
+                href="/admin/contacts"
+                className="flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground"
+              >
+                <Mail className="h-4 w-4" />
+                Contacts
               </Link>
             </li>
             <li>
@@ -37,6 +73,24 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               >
                 <Users className="h-4 w-4" />
                 Customers
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/admin/products"
+                className="flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground"
+              >
+                <BookOpen className="h-4 w-4" />
+                Products
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/admin/payments"
+                className="flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground"
+              >
+                <DollarSign className="h-4 w-4" />
+                Payments
               </Link>
             </li>
             <li>

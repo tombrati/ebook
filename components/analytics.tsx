@@ -11,9 +11,10 @@ function AnalyticsContent() {
   const searchParams = useSearchParams()
 
   useEffect(() => {
-    if (pathname) {
+    if (pathname && process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID) {
       const url = pathname + (searchParams?.toString() ? `?${searchParams.toString()}` : "")
       pageView(url)
+      console.log(`Page view tracked: ${url}`)
     }
   }, [pathname, searchParams])
 
@@ -21,6 +22,11 @@ function AnalyticsContent() {
 }
 
 export default function Analytics() {
+  if (!process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID) {
+    console.warn("Google Analytics Measurement ID is not defined")
+    return null
+  }
+
   return (
     <>
       <Script
@@ -38,6 +44,7 @@ export default function Analytics() {
             gtag('config', '${process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID}', {
               page_path: window.location.pathname,
             });
+            console.log('Google Analytics initialized with ID: ${process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID}');
           `,
         }}
       />

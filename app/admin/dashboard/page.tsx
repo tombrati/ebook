@@ -1,231 +1,216 @@
-"use client"
-
-import { useState, useEffect } from "react"
+import Link from "next/link"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from "recharts"
-import { ArrowUpRight, Download, Users, CreditCard, TrendingUp, Calendar } from "lucide-react"
-
-// Mock data - in a real implementation, this would come from your database
-const mockSalesData = [
-  { date: "2023-01-01", basic: 5, premium: 8, ultimate: 2 },
-  { date: "2023-01-02", basic: 3, premium: 10, ultimate: 4 },
-  { date: "2023-01-03", basic: 7, premium: 12, ultimate: 6 },
-  { date: "2023-01-04", basic: 4, premium: 9, ultimate: 3 },
-  { date: "2023-01-05", basic: 6, premium: 11, ultimate: 5 },
-  { date: "2023-01-06", basic: 8, premium: 14, ultimate: 7 },
-  { date: "2023-01-07", basic: 9, premium: 16, ultimate: 8 },
-]
-
-const productDistribution = [
-  { name: "Basic Edition", value: 42, color: "#94a3b8" },
-  { name: "Premium Edition", value: 80, color: "#3b82f6" },
-  { name: "Ultimate Edition", value: 35, color: "#8b5cf6" },
-]
-
-const COLORS = ["#94a3b8", "#3b82f6", "#8b5cf6"]
+import { BarChart, Users, FileText, Mail, BookOpen, DollarSign, ArrowRight } from "lucide-react"
+import AnalyticsDashboardWidget from "@/components/analytics-dashboard-widget"
 
 export default function AdminDashboard() {
-  const [timeRange, setTimeRange] = useState("week")
-  const [totalSales, setTotalSales] = useState(0)
-  const [totalCustomers, setTotalCustomers] = useState(0)
-  const [averageOrderValue, setAverageOrderValue] = useState(0)
-
-  useEffect(() => {
-    // Calculate metrics based on mock data
-    // In a real implementation, this would be fetched from your API
-    const calculateMetrics = () => {
-      const totalBasic = mockSalesData.reduce((sum, day) => sum + day.basic, 0)
-      const totalPremium = mockSalesData.reduce((sum, day) => sum + day.premium, 0)
-      const totalUltimate = mockSalesData.reduce((sum, day) => sum + day.ultimate, 0)
-
-      const totalOrders = totalBasic + totalPremium + totalUltimate
-      const totalRevenue = totalBasic * 19.99 + totalPremium * 39.99 + totalUltimate * 69.99
-
-      setTotalSales(Math.round(totalRevenue))
-      setTotalCustomers(totalOrders)
-      setAverageOrderValue(Math.round(totalRevenue / totalOrders))
-    }
-
-    calculateMetrics()
-  }, [])
-
   return (
     <div className="p-8">
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold">Sales Dashboard</h1>
-        <Button variant="outline" className="gap-2">
-          <Download className="h-4 w-4" /> Export Report
-        </Button>
+        <h1 className="text-3xl font-bold">Admin Dashboard</h1>
+        <div className="text-sm text-muted-foreground">Last updated: {new Date().toLocaleString()}</div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
         <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-muted-foreground">Total Sales</p>
-                <h3 className="text-2xl font-bold mt-1">${totalSales}</h3>
-              </div>
-              <div className="rounded-full bg-primary/10 p-3">
-                <CreditCard className="h-5 w-5 text-primary" />
-              </div>
-            </div>
-            <div className="flex items-center mt-4 text-sm text-green-600">
-              <ArrowUpRight className="h-4 w-4 mr-1" />
-              <span>12% from last month</span>
-            </div>
+          <CardHeader className="pb-2">
+            <CardTitle className="flex items-center gap-2">
+              <BarChart className="h-5 w-5 text-primary" />
+              Analytics
+            </CardTitle>
+            <CardDescription>View sales and traffic data</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-muted-foreground mb-4">
+              Track sales performance, visitor statistics, and conversion rates.
+            </p>
+            <Button asChild variant="outline" className="w-full">
+              <Link href="/admin/analytics" className="flex items-center justify-between">
+                View Analytics <ArrowRight className="h-4 w-4" />
+              </Link>
+            </Button>
           </CardContent>
         </Card>
 
         <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-muted-foreground">Total Customers</p>
-                <h3 className="text-2xl font-bold mt-1">{totalCustomers}</h3>
-              </div>
-              <div className="rounded-full bg-primary/10 p-3">
-                <Users className="h-5 w-5 text-primary" />
-              </div>
-            </div>
-            <div className="flex items-center mt-4 text-sm text-green-600">
-              <ArrowUpRight className="h-4 w-4 mr-1" />
-              <span>8% from last month</span>
-            </div>
+          <CardHeader className="pb-2">
+            <CardTitle className="flex items-center gap-2">
+              <Mail className="h-5 w-5 text-primary" />
+              Contacts
+            </CardTitle>
+            <CardDescription>Manage leads and contacts</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-muted-foreground mb-4">
+              View and manage all contacts, leads, and form submissions.
+            </p>
+            <Button asChild variant="outline" className="w-full">
+              <Link href="/admin/contacts" className="flex items-center justify-between">
+                View Contacts <ArrowRight className="h-4 w-4" />
+              </Link>
+            </Button>
           </CardContent>
         </Card>
 
         <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-muted-foreground">Avg. Order Value</p>
-                <h3 className="text-2xl font-bold mt-1">${averageOrderValue}</h3>
-              </div>
-              <div className="rounded-full bg-primary/10 p-3">
-                <TrendingUp className="h-5 w-5 text-primary" />
-              </div>
-            </div>
-            <div className="flex items-center mt-4 text-sm text-green-600">
-              <ArrowUpRight className="h-4 w-4 mr-1" />
-              <span>5% from last month</span>
-            </div>
+          <CardHeader className="pb-2">
+            <CardTitle className="flex items-center gap-2">
+              <FileText className="h-5 w-5 text-primary" />
+              Orders
+            </CardTitle>
+            <CardDescription>Manage customer orders</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-muted-foreground mb-4">
+              View, process, and manage all customer orders and downloads.
+            </p>
+            <Button asChild variant="outline" className="w-full">
+              <Link href="/admin/orders" className="flex items-center justify-between">
+                View Orders <ArrowRight className="h-4 w-4" />
+              </Link>
+            </Button>
           </CardContent>
         </Card>
 
         <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-muted-foreground">Conversion Rate</p>
-                <h3 className="text-2xl font-bold mt-1">3.2%</h3>
-              </div>
-              <div className="rounded-full bg-primary/10 p-3">
-                <Calendar className="h-5 w-5 text-primary" />
-              </div>
-            </div>
-            <div className="flex items-center mt-4 text-sm text-green-600">
-              <ArrowUpRight className="h-4 w-4 mr-1" />
-              <span>2% from last month</span>
-            </div>
+          <CardHeader className="pb-2">
+            <CardTitle className="flex items-center gap-2">
+              <Users className="h-5 w-5 text-primary" />
+              Customers
+            </CardTitle>
+            <CardDescription>Manage customer accounts</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-muted-foreground mb-4">
+              View customer information, purchase history, and engagement.
+            </p>
+            <Button asChild variant="outline" className="w-full">
+              <Link href="/admin/customers" className="flex items-center justify-between">
+                View Customers <ArrowRight className="h-4 w-4" />
+              </Link>
+            </Button>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="flex items-center gap-2">
+              <BookOpen className="h-5 w-5 text-primary" />
+              Products
+            </CardTitle>
+            <CardDescription>Manage your products</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-muted-foreground mb-4">
+              Add, edit, and manage your ebooks, guides, and digital products.
+            </p>
+            <Button asChild variant="outline" className="w-full">
+              <Link href="/admin/products" className="flex items-center justify-between">
+                View Products <ArrowRight className="h-4 w-4" />
+              </Link>
+            </Button>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="flex items-center gap-2">
+              <DollarSign className="h-5 w-5 text-primary" />
+              Payments
+            </CardTitle>
+            <CardDescription>Manage payment transactions</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-muted-foreground mb-4">
+              View payment history, refunds, and transaction details.
+            </p>
+            <Button asChild variant="outline" className="w-full">
+              <Link href="/admin/payments" className="flex items-center justify-between">
+                View Payments <ArrowRight className="h-4 w-4" />
+              </Link>
+            </Button>
           </CardContent>
         </Card>
       </div>
 
-      <Tabs defaultValue="sales" className="mb-8">
-        <TabsList>
-          <TabsTrigger value="sales">Sales Overview</TabsTrigger>
-          <TabsTrigger value="products">Product Distribution</TabsTrigger>
-        </TabsList>
-        <TabsContent value="sales" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Sales by Product</CardTitle>
-              <CardDescription>
-                <div className="flex gap-4">
-                  <Button
-                    variant={timeRange === "week" ? "default" : "outline"}
-                    size="sm"
-                    onClick={() => setTimeRange("week")}
-                  >
-                    Week
-                  </Button>
-                  <Button
-                    variant={timeRange === "month" ? "default" : "outline"}
-                    size="sm"
-                    onClick={() => setTimeRange("month")}
-                  >
-                    Month
-                  </Button>
-                  <Button
-                    variant={timeRange === "year" ? "default" : "outline"}
-                    size="sm"
-                    onClick={() => setTimeRange("year")}
-                  >
-                    Year
-                  </Button>
+      <Card>
+        <CardHeader>
+          <CardTitle>Quick Stats</CardTitle>
+          <CardDescription>Overview of your website performance</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="bg-muted p-4 rounded-lg">
+              <div className="text-sm font-medium text-muted-foreground">Total Sales</div>
+              <div className="text-2xl font-bold mt-1">$4,385</div>
+              <div className="text-xs text-green-600 mt-1">↑ 12% from last month</div>
+            </div>
+
+            <div className="bg-muted p-4 rounded-lg">
+              <div className="text-sm font-medium text-muted-foreground">New Customers</div>
+              <div className="text-2xl font-bold mt-1">157</div>
+              <div className="text-xs text-green-600 mt-1">↑ 8% from last month</div>
+            </div>
+
+            <div className="bg-muted p-4 rounded-lg">
+              <div className="text-sm font-medium text-muted-foreground">New Leads</div>
+              <div className="text-2xl font-bold mt-1">512</div>
+              <div className="text-xs text-green-600 mt-1">↑ 15% from last month</div>
+            </div>
+
+            <div className="bg-muted p-4 rounded-lg">
+              <div className="text-sm font-medium text-muted-foreground">Conversion Rate</div>
+              <div className="text-2xl font-bold mt-1">3.2%</div>
+              <div className="text-xs text-green-600 mt-1">↑ 2% from last month</div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <AnalyticsDashboardWidget />
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Recent Activity</CardTitle>
+            <CardDescription>Latest actions on your website</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div className="flex items-start gap-4">
+                <div className="rounded-full bg-blue-100 p-2">
+                  <Users className="h-4 w-4 text-blue-600" />
                 </div>
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="h-[300px]">
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart
-                    data={mockSalesData}
-                    margin={{
-                      top: 20,
-                      right: 30,
-                      left: 20,
-                      bottom: 5,
-                    }}
-                  >
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="date" />
-                    <YAxis />
-                    <Tooltip />
-                    <Bar dataKey="basic" name="Basic Edition" fill="#94a3b8" />
-                    <Bar dataKey="premium" name="Premium Edition" fill="#3b82f6" />
-                    <Bar dataKey="ultimate" name="Ultimate Edition" fill="#8b5cf6" />
-                  </BarChart>
-                </ResponsiveContainer>
+                <div>
+                  <p className="text-sm font-medium">New lead captured</p>
+                  <p className="text-xs text-muted-foreground">5 minutes ago</p>
+                </div>
               </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-        <TabsContent value="products">
-          <Card>
-            <CardHeader>
-              <CardTitle>Product Distribution</CardTitle>
-              <CardDescription>Breakdown of sales by product</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="h-[300px] flex items-center justify-center">
-                <ResponsiveContainer width="100%" height="100%">
-                  <PieChart>
-                    <Pie
-                      data={productDistribution}
-                      cx="50%"
-                      cy="50%"
-                      labelLine={false}
-                      outerRadius={100}
-                      fill="#8884d8"
-                      dataKey="value"
-                      label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-                    >
-                      {productDistribution.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                      ))}
-                    </Pie>
-                    <Tooltip />
-                  </PieChart>
-                </ResponsiveContainer>
+
+              <div className="flex items-start gap-4">
+                <div className="rounded-full bg-green-100 p-2">
+                  <DollarSign className="h-4 w-4 text-green-600" />
+                </div>
+                <div>
+                  <p className="text-sm font-medium">New purchase completed</p>
+                  <p className="text-xs text-muted-foreground">23 minutes ago</p>
+                </div>
               </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-      </Tabs>
+
+              <div className="flex items-start gap-4">
+                <div className="rounded-full bg-purple-100 p-2">
+                  <FileText className="h-4 w-4 text-purple-600" />
+                </div>
+                <div>
+                  <p className="text-sm font-medium">Free guide downloaded</p>
+                  <p className="text-xs text-muted-foreground">42 minutes ago</p>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   )
 }

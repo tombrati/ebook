@@ -6,6 +6,7 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Loader2 } from "lucide-react"
+import { trackFormSubmission } from "@/lib/analytics"
 
 export default function LeadCaptureForm() {
   const [email, setEmail] = useState("")
@@ -26,6 +27,8 @@ export default function LeadCaptureForm() {
       return
     }
 
+    trackFormSubmission("AI Side Hustles Lead Form")
+
     try {
       // In a real implementation, you would send this data to your API
       // await fetch('/api/subscribe', {
@@ -38,6 +41,7 @@ export default function LeadCaptureForm() {
       await new Promise((resolve) => setTimeout(resolve, 1500))
 
       setIsSubmitted(true)
+      trackFormSubmission("AI Side Hustles Lead Form Success")
 
       // Redirect to thank you page with download
       setTimeout(() => {
@@ -48,6 +52,7 @@ export default function LeadCaptureForm() {
       // window.location.href = '/thank-you?download=ai-side-hustles'
     } catch (err) {
       setError("Something went wrong. Please try again.")
+      trackFormSubmission("AI Side Hustles Lead Form Error", false)
       console.error(err)
     } finally {
       setIsSubmitting(false)

@@ -6,6 +6,7 @@ import { ArrowDown, ArrowRight, CheckCircle, FileText } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import SiteHeader from "@/components/site-header"
+import { trackDownload } from "@/lib/analytics"
 
 export default function ThankYouPage() {
   return (
@@ -42,6 +43,9 @@ export default function ThankYouPage() {
                 size="lg"
                 className="gap-2"
                 onClick={() => {
+                  // Track the download
+                  trackDownload("7-proven-ai-side-hustles-guide.pdf", "pdf")
+
                   // Create a temporary link to trigger download
                   const link = document.createElement("a")
                   link.href = "/files/ai-side-hustles-guide.pdf"

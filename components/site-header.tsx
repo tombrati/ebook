@@ -25,11 +25,11 @@ export default function SiteHeader() {
           <Link href="/landing-page" className="text-sm font-medium hover:underline underline-offset-4">
             Landing Page
           </Link>
+          <Link href="/book" className="text-sm font-medium hover:underline underline-offset-4">
+            Book
+          </Link>
           <Link href="/#expertise" className="text-sm font-medium hover:underline underline-offset-4">
             Expertise
-          </Link>
-          <Link href="/#book" className="text-sm font-medium hover:underline underline-offset-4">
-            Book
           </Link>
           <Link href="/blog" className="text-sm font-medium hover:underline underline-offset-4">
             Blog

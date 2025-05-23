@@ -5,7 +5,7 @@ import type React from "react"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Loader2, CheckCircle } from "lucide-react"
+import { Loader2 } from "lucide-react"
 
 export default function LeadCaptureForm() {
   const [email, setEmail] = useState("")
@@ -39,6 +39,11 @@ export default function LeadCaptureForm() {
 
       setIsSubmitted(true)
 
+      // Redirect to thank you page with download
+      setTimeout(() => {
+        window.location.href = "/ai-side-hustles/thank-you"
+      }, 2000)
+
       // In a real implementation, you would redirect to a thank you page or trigger a download
       // window.location.href = '/thank-you?download=ai-side-hustles'
     } catch (err) {
@@ -50,18 +55,7 @@ export default function LeadCaptureForm() {
   }
 
   if (isSubmitted) {
-    return (
-      <div className="text-center py-6 space-y-4">
-        <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-green-100 text-green-600 mb-2">
-          <CheckCircle className="h-6 w-6" />
-        </div>
-        <h3 className="text-xl font-medium">Success!</h3>
-        <p className="text-muted-foreground">
-          Your guide is on its way to your inbox. Check your email in the next few minutes.
-        </p>
-        <p className="text-sm text-muted-foreground mt-4">(If you don't see it, please check your spam folder)</p>
-      </div>
-    )
+    return null
   }
 
   return (

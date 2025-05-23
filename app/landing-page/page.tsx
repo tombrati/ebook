@@ -1,3 +1,5 @@
+"use client"
+
 import Link from "next/link"
 import Image from "next/image"
 import { ArrowRight, Clock, Download } from "lucide-react"
@@ -81,7 +83,7 @@ export default function LandingPage() {
 
             {/* CTA Section */}
             <div className="mt-12">
-              <Card className="max-w-xl mx-auto overflow-hidden">
+              <Card id="get-guide" className="max-w-xl mx-auto overflow-hidden">
                 <CardContent className="p-0">
                   <div className="p-6 bg-card">
                     <div className="flex items-center gap-4 mb-6">
@@ -116,10 +118,12 @@ export default function LandingPage() {
             <p className="text-xl mb-8 max-w-2xl mx-auto">
               Get your free guide today and discover how you can start making money with AI.
             </p>
-            <Button size="lg" className="gap-2" asChild>
-              <a href="#top">
-                Get My Free AI Side Hustle Guide <ArrowRight className="h-4 w-4" />
-              </a>
+            <Button
+              size="lg"
+              className="gap-2"
+              onClick={() => document.getElementById("get-guide")?.scrollIntoView({ behavior: "smooth" })}
+            >
+              Get My Free AI Side Hustle Guide <ArrowRight className="h-4 w-4" />
             </Button>
           </div>
         </section>

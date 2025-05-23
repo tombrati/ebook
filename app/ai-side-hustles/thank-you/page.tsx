@@ -1,3 +1,5 @@
+"use client"
+
 import Link from "next/link"
 import Image from "next/image"
 import { ArrowDown, ArrowRight, CheckCircle, FileText } from "lucide-react"
@@ -36,10 +38,20 @@ export default function ThankYouPage() {
               <p className="mb-6 text-muted-foreground">
                 Your comprehensive guide to starting and succeeding with AI side hustles in 2025.
               </p>
-              <Button size="lg" className="gap-2" asChild>
-                <a href="/files/ai-side-hustles-guide.pdf" download>
-                  Download Your Guide <ArrowDown className="h-4 w-4" />
-                </a>
+              <Button
+                size="lg"
+                className="gap-2"
+                onClick={() => {
+                  // Create a temporary link to trigger download
+                  const link = document.createElement("a")
+                  link.href = "/files/ai-side-hustles-guide.pdf"
+                  link.download = "7-proven-ai-side-hustles-guide.pdf"
+                  document.body.appendChild(link)
+                  link.click()
+                  document.body.removeChild(link)
+                }}
+              >
+                Download Your Guide <ArrowDown className="h-4 w-4" />
               </Button>
             </CardContent>
           </div>

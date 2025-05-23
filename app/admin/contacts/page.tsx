@@ -7,115 +7,33 @@ import { Input } from "@/components/ui/input"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Badge } from "@/components/ui/badge"
-import { Download, Filter, MoreHorizontal, Search, Mail, ArrowDownUp } from "lucide-react"
-
-// Mock data - in a real implementation, this would come from your database
-const mockContacts = [
-  {
-    id: "1",
-    name: "John Smith",
-    email: "john.smith@example.com",
-    source: "Landing Page",
-    date: "2023-05-15T10:30:00Z",
-    status: "New",
-    tags: ["Lead", "Free Guide"],
-  },
-  {
-    id: "2",
-    name: "Sarah Johnson",
-    email: "sarah.j@example.com",
-    source: "Newsletter Signup",
-    date: "2023-05-14T14:45:00Z",
-    status: "Contacted",
-    tags: ["Subscriber"],
-  },
-  {
-    id: "3",
-    name: "Michael Brown",
-    email: "michael.b@example.com",
-    source: "Contact Form",
-    date: "2023-05-13T09:15:00Z",
-    status: "Responded",
-    tags: ["Customer", "Premium"],
-  },
-  {
-    id: "4",
-    name: "Emily Davis",
-    email: "emily.d@example.com",
-    source: "AI Side Hustles",
-    date: "2023-05-12T16:20:00Z",
-    status: "New",
-    tags: ["Lead", "Free Guide"],
-  },
-  {
-    id: "5",
-    name: "Robert Wilson",
-    email: "robert.w@example.com",
-    source: "Book Purchase",
-    date: "2023-05-11T11:10:00Z",
-    status: "Customer",
-    tags: ["Customer", "Ultimate"],
-  },
-  {
-    id: "6",
-    name: "Jennifer Lee",
-    email: "jennifer.l@example.com",
-    source: "Landing Page",
-    date: "2023-05-10T13:25:00Z",
-    status: "New",
-    tags: ["Lead", "Free Guide"],
-  },
-  {
-    id: "7",
-    name: "David Martinez",
-    email: "david.m@example.com",
-    source: "Newsletter Signup",
-    date: "2023-05-09T15:40:00Z",
-    status: "Subscribed",
-    tags: ["Subscriber"],
-  },
-  {
-    id: "8",
-    name: "Lisa Anderson",
-    email: "lisa.a@example.com",
-    source: "Contact Form",
-    date: "2023-05-08T10:05:00Z",
-    status: "Responded",
-    tags: ["Lead", "Question"],
-  },
-  {
-    id: "9",
-    name: "James Taylor",
-    email: "james.t@example.com",
-    source: "AI Side Hustles",
-    date: "2023-05-07T09:30:00Z",
-    status: "New",
-    tags: ["Lead", "Free Guide"],
-  },
-  {
-    id: "10",
-    name: "Patricia Moore",
-    email: "patricia.m@example.com",
-    source: "Book Purchase",
-    date: "2023-05-06T14:15:00Z",
-    status: "Customer",
-    tags: ["Customer", "Basic"],
-  },
-]
+import { Download, Filter, MoreHorizontal, Search, Mail, ArrowDownUp, RefreshCw } from "lucide-react"
 
 export default function ContactsPage() {
-  const [contacts, setContacts] = useState(mockContacts)
+  const [contacts, setContacts] = useState([])
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedFilter, setSelectedFilter] = useState("All")
   const [isLoading, setIsLoading] = useState(true)
 
-  useEffect(() => {
-    // Simulate loading data
-    const timer = setTimeout(() => {
+  const fetchContacts = async () => {
+    setIsLoading(true)
+    try {
+      const response = await fetch("/api/contacts")
+      const data = await response.json()
+      if (response.ok) {
+        setContacts(data.contacts)
+      } else {
+        console.error("Failed to fetch contacts:", data.error)
+      }
+    } catch (error) {
+      console.error("Error fetching contacts:", error)
+    } finally {
       setIsLoading(false)
-    }, 1000)
+    }
+  }
 
-    return () => clearTimeout(timer)
+  useEffect(() => {
+    fetchContacts()
   }, [])
 
   // Filter contacts based on search term and selected filter
@@ -133,9 +51,32 @@ export default function ContactsPage() {
   })
 
   const handleExportCSV = () => {
-    // In a real implementation, this would generate and download a CSV file
-    console.log("Exporting contacts to CSV")
-    alert("Contacts exported to CSV")
+    // Create CSV content
+    const headers = ["Name", "Email", "Source", "Date", "Status", "Tags"]
+    const csvContent = [
+      headers.join(","),
+      ...filteredContacts.map((contact) =>
+        [
+          contact.name,
+          contact.email,
+          contact.source,
+          new Date(contact.date).toLocaleDateString(),
+          contact.status,
+          contact.tags.join(";"),
+        ].join(","),
+      ),
+    ].join("\n")
+
+    // Download CSV
+    const blob = new Blob([csvContent], { type: "text/csv" })
+    const url = window.URL.createObjectURL(blob)
+    const a = document.createElement("a")
+    a.href = url
+    a.download = `contacts-${new Date().toISOString().split("T")[0]}.csv`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    window.URL.revokeObjectURL(url)
   }
 
   const formatDate = (dateString) => {
@@ -144,6 +85,8 @@ export default function ContactsPage() {
       year: "numeric",
       month: "short",
       day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
     }).format(date)
   }
 
@@ -168,9 +111,14 @@ export default function ContactsPage() {
     <div className="p-8">
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold">Contacts & Leads</h1>
-        <Button variant="outline" className="gap-2" onClick={handleExportCSV}>
-          <Download className="h-4 w-4" /> Export CSV
-        </Button>
+        <div className="flex gap-2">
+          <Button variant="outline" className="gap-2" onClick={fetchContacts}>
+            <RefreshCw className="h-4 w-4" /> Refresh
+          </Button>
+          <Button variant="outline" className="gap-2" onClick={handleExportCSV}>
+            <Download className="h-4 w-4" /> Export CSV
+          </Button>
+        </div>
       </div>
 
       <div className="flex flex-col md:flex-row gap-4 mb-6">
@@ -232,7 +180,7 @@ export default function ContactsPage() {
                   {filteredContacts.length === 0 ? (
                     <TableRow>
                       <TableCell colSpan={7} className="text-center h-24 text-muted-foreground">
-                        No contacts found
+                        {isLoading ? "Loading..." : "No contacts found"}
                       </TableCell>
                     </TableRow>
                   ) : (

@@ -9,11 +9,36 @@ import { Mail } from "lucide-react"
 export default function NewsletterSignup() {
   const [email, setEmail] = useState("")
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    // Here you would typically send the email to your newsletter service
-    setIsSubmitted(true)
+    setIsSubmitting(true)
+
+    try {
+      // Submit the contact data to our API
+      const response = await fetch("/api/contacts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email,
+          name: "Newsletter Subscriber",
+          source: "Newsletter Signup",
+        }),
+      })
+
+      const data = await response.json()
+
+      if (response.ok) {
+        setIsSubmitted(true)
+      } else {
+        console.error("Failed to submit:", data.error)
+      }
+    } catch (error) {
+      console.error("Error submitting newsletter signup:", error)
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -39,8 +64,8 @@ export default function NewsletterSignup() {
                   required
                 />
               </div>
-              <Button type="submit" className="sm:w-auto">
-                Subscribe
+              <Button type="submit" className="sm:w-auto" disabled={isSubmitting}>
+                {isSubmitting ? "Subscribing..." : "Subscribe"}
               </Button>
             </div>
             <p className="text-xs text-center text-muted-foreground">

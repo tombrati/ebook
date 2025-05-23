@@ -30,15 +30,22 @@ export default function LeadCaptureForm() {
     trackFormSubmission("AI Side Hustles Lead Form")
 
     try {
-      // In a real implementation, you would send this data to your API
-      // await fetch('/api/subscribe', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify({ email, name }),
-      // })
+      // Submit the contact data to our API
+      const response = await fetch("/api/contacts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email,
+          name: name || "Unknown",
+          source: "AI Side Hustles",
+        }),
+      })
 
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1500))
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to submit")
+      }
 
       setIsSubmitted(true)
       trackFormSubmission("AI Side Hustles Lead Form Success")
@@ -47,9 +54,6 @@ export default function LeadCaptureForm() {
       setTimeout(() => {
         window.location.href = "/ai-side-hustles/thank-you"
       }, 2000)
-
-      // In a real implementation, you would redirect to a thank you page or trigger a download
-      // window.location.href = '/thank-you?download=ai-side-hustles'
     } catch (err) {
       setError("Something went wrong. Please try again.")
       trackFormSubmission("AI Side Hustles Lead Form Error", false)
@@ -60,7 +64,15 @@ export default function LeadCaptureForm() {
   }
 
   if (isSubmitted) {
-    return null
+    return (
+      <div className="text-center py-4 space-y-2">
+        <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/10 text-primary mb-2">
+          ✓
+        </div>
+        <h3 className="text-xl font-medium">Success!</h3>
+        <p className="text-muted-foreground">Redirecting to your download...</p>
+      </div>
+    )
   }
 
   return (
